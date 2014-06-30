@@ -113,3 +113,15 @@ h1 {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
 }
+
+
+
+    html, body, #map
+    {
+        height: 100%;
+    }
+    #map
+    {
+        width: 100%;
+    }
+

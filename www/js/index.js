@@ -17,8 +17,10 @@
  * under the License.
  */
 var app = {
+    
     // Application Constructor
     initialize: function() {
+        console.log("Somos initialize, vamos a bindear los eventos");
         this.bindEvents();
     },
     // Bind Event Listeners
@@ -34,7 +36,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         //app.receivedEvent('deviceready');
-        console.log('onDeviceReady');
+        console.log('hemos recivido onDeviceReady, vamos a inicializar el mapa');
         app.initializeMap();
         
     },
@@ -48,31 +50,63 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
-    }
+    },
     
     initializeMap: function() {
-    // this is where the custom code will go for each mapping implementation
-        var map = new L.Map('map');
+        console.log("Inicializamos el mapa");
+        // this is where the custom code will go for each mapping implementation
+        app.map = new L.Map('map');
 
         var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
         var osmAttrib = 'Map data © OpenStreetMap contributors';
         var osm = new L.TileLayer(osmUrl, { attribution: osmAttrib });
 
-        map.setView(new L.LatLng(43.069452, -89.411373), 11);
-        map.addLayer(osm);
+        app.map.setView(new L.LatLng(43.069452, -89.411373), 13);
+        app.map.addLayer(osm);
+        app.buscame();
         
+    },
+    // onSuccess Callback
+    //   This method accepts a `Position` object, which contains
+    //   the current GPS coordinates
+    //
+    buscame_onSuccess: function(position) {
+        console.log("Te pillé");
+        console.log('Latitude: '          + position.coords.latitude          + '\n' +
+              'Longitude: '         + position.coords.longitude         + '\n' +
+              'Altitude: '          + position.coords.altitude          + '\n' +
+              'Accuracy: '          + position.coords.accuracy          + '\n' +
+              'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
+              'Heading: '           + position.coords.heading           + '\n' +
+              'Speed: '             + position.coords.speed             + '\n' +
+              'Timestamp: '         + position.timestamp                + '\n');
+        //var map = new L.Map('map');
+        console.log("Centremonos");
+        
+            
+        app.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 13);
+        
+        
+        console.log("Centrado");
+    },
+     
+
+    // onError Callback receives a PositionError object
+    //
+    buscame_onError: function(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    },
+
+    buscame: function() {
+        console.log("Vamos a buscar la posicion");
+        navigator.geolocation.getCurrentPosition(this.buscame_onSuccess, this.buscame_onError);
     }
 };
 
-function initializeMap() {
-    // this is where the custom code will go for each mapping implementation
-        var map = new L.Map('map');
 
-        var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-        var osmAttrib = 'Map data © OpenStreetMap contributors';
-        var osm = new L.TileLayer(osmUrl, { attribution: osmAttrib });
 
-        map.setView(new L.LatLng(43.069452, -89.411373), 11);
-        map.addLayer(osm);
-        
-    }
+
+
+
+
