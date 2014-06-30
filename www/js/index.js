@@ -33,7 +33,10 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
+        //app.receivedEvent('deviceready');
+        console.log('onDeviceReady');
+        app.initializeMap();
+        
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -46,4 +49,30 @@ var app = {
 
         console.log('Received Event: ' + id);
     }
+    
+    initializeMap: function() {
+    // this is where the custom code will go for each mapping implementation
+        var map = new L.Map('map');
+
+        var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        var osmAttrib = 'Map data © OpenStreetMap contributors';
+        var osm = new L.TileLayer(osmUrl, { attribution: osmAttrib });
+
+        map.setView(new L.LatLng(43.069452, -89.411373), 11);
+        map.addLayer(osm);
+        
+    }
 };
+
+function initializeMap() {
+    // this is where the custom code will go for each mapping implementation
+        var map = new L.Map('map');
+
+        var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        var osmAttrib = 'Map data © OpenStreetMap contributors';
+        var osm = new L.TileLayer(osmUrl, { attribution: osmAttrib });
+
+        map.setView(new L.LatLng(43.069452, -89.411373), 11);
+        map.addLayer(osm);
+        
+    }
